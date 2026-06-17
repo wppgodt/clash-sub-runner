@@ -62,6 +62,8 @@ function Ensure-Subscription([string]$Root, [string]$Url) {
     return
   }
 
+  Write-Host "未找到 subscription.txt。首次部署需要提供 Clash/Mihomo 订阅 URL。"
+  Write-Host "该 URL 只会写入本地 subscription.txt，不会提交到仓库。"
   $entered = Read-Host "请输入 Clash/Mihomo 订阅 URL"
   if (!(Test-HttpUrl $entered)) {
     throw "订阅 URL 必须是完整的 http(s) URL。"
