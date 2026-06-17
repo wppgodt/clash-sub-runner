@@ -27,4 +27,7 @@ jobs:
         run: npm ci
 
       - name: Run source tests
-        run: node --test test/*.test.js
+        shell: pwsh
+        run: |
+          $tests = Get-ChildItem -Path test -Filter *.test.js | ForEach-Object { $_.FullName }
+          node --test $tests
