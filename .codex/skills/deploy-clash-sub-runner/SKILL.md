@@ -1,21 +1,21 @@
 ---
 name: deploy-clash-sub-runner
-description: Deploy and validate a freshly cloned Clash Sub Runner repository on Windows. Use when the user asks to set up, install, deploy, bootstrap, or first-run this project after cloning, including preparing dependencies, subscription config, Mihomo core, local config refresh, tests, and the local network console URL.
+description: 在 Windows 上部署并验证全新克隆的 Clash Sub Runner 仓库。用于用户要求 setup、install、deploy、bootstrap、首次运行、克隆后部署本项目时，包括准备依赖、订阅配置、Mihomo core、本地配置刷新、测试和本地网络控制台 URL。
 ---
 
-# Deploy Clash Sub Runner
+# 部署 Clash Sub Runner
 
-## Workflow
+## 流程
 
-1. Verify the current workspace is the `clash-sub-runner` project by reading `package.json`.
-2. Do not read or print `subscription.txt`.
-3. Run the project deployment script from the repository root:
+1. 通过读取 `package.json` 确认当前工作区是 `clash-sub-runner` 项目。
+2. 不要读取或打印 `subscription.txt`。
+3. 在仓库根目录运行项目部署脚本：
 
 ```powershell
 .\scripts\deploy.ps1
 ```
 
-Use these options only when requested or appropriate:
+仅在用户要求或确有需要时使用这些参数：
 
 ```powershell
 .\scripts\deploy.ps1 -Open
@@ -24,12 +24,12 @@ Use these options only when requested or appropriate:
 .\scripts\deploy.ps1 -SubscriptionUrl "https://example.com/clash.yaml"
 ```
 
-4. Read the script output and report the local console URL.
+4. 读取脚本输出，并向用户报告本地控制台 URL。
 
-## Guardrails
+## 约束
 
-- Never print, inspect, or commit `subscription.txt`.
-- Never commit `data/`, `dist/`, `node_modules/`, `outputs/`, or logs.
-- If the script prompts for a subscription URL, let the user provide it in their terminal; do not ask them to paste it into chat.
-- If `npm test` fails in a fresh clone only because `dist\` is absent, use the source-level validation already run by the deployment script or run `.\scripts\deploy.ps1 -Build`.
-- The deployment script may start the local GUI/API but must not enable Clash proxying unless the user explicitly requests that in the UI or through project commands.
+- 绝不打印、查看或提交 `subscription.txt`。
+- 绝不提交 `data/`、`dist/`、`node_modules/`、`outputs/` 或日志。
+- 如果脚本提示输入订阅 URL，让用户在自己的终端里输入；不要要求用户把订阅 URL 粘贴到聊天里。
+- 如果全新克隆中的 `npm test` 仅因缺少 `dist\` 失败，使用部署脚本已经运行过的源码级验证，或运行 `.\scripts\deploy.ps1 -Build`。
+- 部署脚本可以启动本地 GUI/API，但除非用户在 UI 或项目命令中明确要求，否则不要启用 Clash 代理。

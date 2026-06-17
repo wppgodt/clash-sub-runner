@@ -53,12 +53,12 @@ function Complete-ConsoleStart([pscustomobject]$Result) {
 $root = Get-ProjectRoot
 $packagePath = Join-Path $root 'package.json'
 if (!(Test-Path -LiteralPath $packagePath)) {
-  throw "package.json is missing; this does not look like the Clash Sub Runner project."
+  throw "缺少 package.json；当前目录不像 Clash Sub Runner 项目。"
 }
 
 $package = Get-Content -LiteralPath $packagePath -Raw | ConvertFrom-Json
 if ($package.name -ne 'clash-sub-runner') {
-  throw "package.json name is '$($package.name)', expected 'clash-sub-runner'."
+  throw "package.json 的 name 是 '$($package.name)'，预期为 'clash-sub-runner'。"
 }
 
 foreach ($port in $DefaultPort..($DefaultPort + $FallbackCount - 1)) {
@@ -93,4 +93,4 @@ foreach ($port in $DefaultPort..($DefaultPort + $FallbackCount - 1)) {
   }
 }
 
-throw "Started the GUI process, but no local API became available on ports $DefaultPort-$($DefaultPort + $FallbackCount - 1)."
+throw "已启动 GUI 进程，但端口 $DefaultPort-$($DefaultPort + $FallbackCount - 1) 上没有本地 API 可用。"

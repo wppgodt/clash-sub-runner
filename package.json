@@ -1,7 +1,7 @@
 {
   "name": "clash-sub-runner",
   "version": "1.0.0",
-  "description": "A small Windows launcher for a Clash/Mihomo subscription.",
+  "description": "Windows 上的 Clash/Mihomo 订阅启动器。",
   "bin": "src/index.js",
   "scripts": {
     "build": "node scripts/build-sea.js",

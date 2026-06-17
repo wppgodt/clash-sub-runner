@@ -1,4 +1,4 @@
 interface:
-  display_name: "Deploy Clash Sub Runner"
-  short_description: "Set up and start this project after cloning."
-  default_prompt: "Use $deploy-clash-sub-runner to set up this cloned Clash Sub Runner project."
+  display_name: "部署 Clash Sub Runner"
+  short_description: "克隆后设置并启动本项目。"
+  default_prompt: "使用 $deploy-clash-sub-runner 部署这个刚克隆的 Clash Sub Runner 项目。"

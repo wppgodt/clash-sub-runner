@@ -1,26 +1,26 @@
 ---
 name: clash-console-start
-description: Start the local Clash Sub Runner network console for this repository and report the browser URL. Use when the user asks to start, open, launch, or get the URL for this project's local VPN/network console, Clash Sub Runner UI, or local proxy dashboard.
+description: 启动本仓库的 Clash Sub Runner 本地网络控制台并报告浏览器 URL。用于用户要求启动、打开、launch，或获取本项目本地 VPN/network console、Clash Sub Runner UI、本地代理控制台 URL 时。
 ---
 
-# Clash Console Start
+# 启动 Clash 控制台
 
-## Workflow
+## 流程
 
-1. Verify the current workspace is the `clash-sub-runner` project by reading `package.json`.
-2. Run the project PowerShell script from the repository root. If the user asks to open the web page, pass `-Open`; if they only ask for the URL, omit it:
+1. 通过读取 `package.json` 确认当前工作区是 `clash-sub-runner` 项目。
+2. 在仓库根目录运行项目 PowerShell 脚本。如果用户要求打开网页，传入 `-Open`；如果只要 URL，则省略：
 
 ```powershell
 .\scripts\start-console.ps1
 .\scripts\start-console.ps1 -Open
 ```
 
-3. Read the script output and tell the user the URL.
+3. 读取脚本输出，并告诉用户 URL。
 
-## Guardrails
+## 约束
 
-- Do not print or inspect `subscription.txt`.
-- Start only the local GUI API unless the user explicitly asks to enable Clash proxying.
-- `-Open` only opens the local web UI in the default browser; it must not enable Clash proxying.
-- The script may reuse an existing GUI service on ports `17980` through `17989`.
-- If startup fails, report the script error and do not try unrelated ports outside the configured fallback range.
+- 不要打印或查看 `subscription.txt`。
+- 除非用户明确要求启用 Clash 代理，否则只启动本地 GUI API。
+- `-Open` 只会用默认浏览器打开本地 Web UI，不能启用 Clash 代理。
+- 脚本可能复用 `17980` 到 `17989` 端口上的已有 GUI 服务。
+- 如果启动失败，报告脚本错误，不要尝试配置范围外的无关端口。
