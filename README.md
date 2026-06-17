@@ -1,34 +1,34 @@
 # Clash Sub Runner
 
-Windows GUI launcher for a Clash/Mihomo subscription.
+Windows 上的 Clash/Mihomo 图形启动器，用于基于订阅配置启动本地代理、查看网络路径并控制节点。
 
-## Use
+## 使用
 
-Put `subscription.txt` next to `clash-sub-runner.exe`. The first non-empty line is the subscription URL.
+把 `subscription.txt` 放在 `clash-sub-runner.exe` 同级目录下。文件第一行非空内容应为订阅 URL。
 
-Run:
+运行：
 
 ```powershell
 .\clash-sub-runner.exe
 ```
 
-The app opens a local GUI window and auto-starts Mihomo. It uses:
+应用会打开本地图形窗口并自动启动 Mihomo。默认使用：
 
-- local mixed proxy: `127.0.0.1:7890`
-- local GUI/API: `http://127.0.0.1:17980` by default, with automatic fallback through `17989` if another local service already owns the port
-- Mihomo controller: `http://127.0.0.1:9090`
+- 本地 mixed proxy：`127.0.0.1:7890`
+- 本地 GUI/API：默认 `http://127.0.0.1:17980`，如果端口被占用，会自动 fallback 到 `17989`
+- Mihomo controller：`http://127.0.0.1:9090`
 
-## Deploy From Source
+## 从源码部署
 
-After cloning on Windows, run:
+在 Windows 上 clone 后运行：
 
 ```powershell
 .\scripts\deploy.ps1
 ```
 
-The deploy script installs npm dependencies, prepares `subscription.txt`, downloads or verifies the Mihomo core, refreshes the Clash config without changing the Windows proxy, runs source tests, starts the local console, and prints the URL.
+部署脚本会安装 npm 依赖、准备 `subscription.txt`、下载或验证 Mihomo core、在不修改 Windows 系统代理的前提下刷新 Clash 配置、运行源码测试、启动本地控制台并输出 URL。
 
-Useful deploy options:
+常用部署参数：
 
 ```powershell
 .\scripts\deploy.ps1 -Open
@@ -37,25 +37,25 @@ Useful deploy options:
 .\scripts\deploy.ps1 -SubscriptionUrl "https://example.com/clash.yaml"
 ```
 
-Codex users can also invoke the project skill `$deploy-clash-sub-runner` after cloning.
+Codex 用户 clone 后也可以调用项目 skill：`$deploy-clash-sub-runner`。
 
-## GUI Features
+## GUI 功能
 
-- start, stop, refresh subscription, node delay test, one-click reset
-- rule/global/direct mode switching
-- region and node selection
-- live status polling from the running Mihomo controller
-- persistent speed-test results and live progress in the `Speed Test` panel
-- app and core logs under `data\logs`
-- cached config fallback when the subscription server returns errors such as `HTTP 502`
-- transient subscription `5xx` responses are retried before falling back to the cached config
-- current-process app logs in the GUI, so stale errors from earlier runs do not mask the live state
+- 启动、停止、刷新订阅、节点测速、一键重置
+- `rule` / `global` / `direct` 模式切换
+- 地区和节点选择
+- 从正在运行的 Mihomo controller 实时轮询状态
+- 在 `Speed Test` 面板持久化测速结果并显示实时进度
+- 应用日志和 core 日志写入 `data\logs`
+- 订阅服务器返回 `HTTP 502` 等错误时，可回退到缓存配置
+- 订阅临时 `5xx` 错误会先重试，再回退到缓存配置
+- GUI 只展示当前进程的应用日志，避免旧错误掩盖当前状态
 
-One-click reset restores the Windows proxy, stops the owned Mihomo process, clears runtime cache files, resets mode to `rule`, and restarts if the service was running.
+一键重置会恢复 Windows 代理、停止本项目持有的 Mihomo 进程、清理运行时缓存文件、把模式重置为 `rule`，并在服务原本运行时重新启动。
 
-## PowerShell Control
+## PowerShell 控制
 
-These commands control the running GUI service:
+以下命令可以控制正在运行的 GUI 服务：
 
 ```powershell
 .\clash-sub-runner.exe --cmd status
@@ -68,18 +68,18 @@ These commands control the running GUI service:
 .\clash-sub-runner.exe --cmd logs
 ```
 
-The GUI refreshes every second, so changes made through PowerShell or MCP are reflected in the app.
-`--cmd test` runs both the external-IP check and node delay checks; the same latest result is saved in `data\app-state.json` and shown in the GUI.
+GUI 每秒刷新一次，因此通过 PowerShell 或 MCP 做出的改动会反映到界面中。
+`--cmd test` 会同时运行外部 IP 检查和节点延迟测试，最新结果会保存到 `data\app-state.json` 并显示在 GUI 中。
 
 ## MCP
 
-Run the same executable as a stdio MCP server:
+同一个可执行文件可以作为 stdio MCP server 运行：
 
 ```powershell
 .\clash-sub-runner.exe --mcp
 ```
 
-Codex or Claude Desktop configuration:
+Codex 或 Claude Desktop 配置示例：
 
 ```json
 {
@@ -92,7 +92,7 @@ Codex or Claude Desktop configuration:
 }
 ```
 
-MCP tools:
+MCP tools：
 
 - `vpn_get_status`
 - `vpn_start`
@@ -103,50 +103,50 @@ MCP tools:
 - `vpn_test_connectivity`
 - `vpn_tail_logs`
 
-## Build
+## 构建
 
 ```powershell
 npm install
 npm run build
 ```
 
-The executable is created at:
+构建产物位于：
 
 ```text
 dist\clash-sub-runner.exe
 ```
 
-## Tests
+## 测试
 
 ```powershell
 npm test
 ```
 
-Covered cases:
+覆盖场景：
 
-- subscription YAML normalization and invalid response handling
-- region detection and selectable-node filtering
-- MCP initialize/tools contract
-- GUI required controls
-- external-IP parsing for connectivity diagnostics
-- runtime help output
-- cached Mihomo config validation
-- local GUI API startup
+- 订阅 YAML 规范化和非法响应处理
+- 地区识别和可选择节点过滤
+- MCP initialize/tools 协议
+- GUI 必需控件
+- 连通性诊断中的外部 IP 解析
+- 运行时 help 输出
+- 缓存 Mihomo 配置验证
+- 本地 GUI API 启动
 
-## Useful Options
+## 常用参数
 
 ```text
---console              Run without GUI.
---mcp                  Run MCP stdio server.
---cmd <name>           Control the running GUI service.
---refresh-only         Fetch and write config, then exit.
---no-system-proxy      Do not change Windows proxy settings.
---restore-proxy        Restore proxy backup and stop owned core.
---download-core-only   Download/verify the Mihomo core, then exit.
---subscription <url>   Save/update the subscription URL.
---port <number>        Local mixed proxy port. Default: 7890.
---ui-port <number>     Local GUI/API port. Default: 17980; GUI startup can fall back through 17989.
---core <path>          Use an existing Mihomo executable.
---no-auto-start        Open GUI without starting VPN.
---no-open              Start GUI/API without opening a browser window.
+--console              不打开 GUI，直接运行。
+--mcp                  作为 MCP stdio server 运行。
+--cmd <name>           控制正在运行的 GUI 服务。
+--refresh-only         拉取并写入配置后退出。
+--no-system-proxy      不修改 Windows 系统代理。
+--restore-proxy        恢复代理备份并停止本项目持有的 core。
+--download-core-only   下载或验证 Mihomo core 后退出。
+--subscription <url>   保存或更新订阅 URL。
+--port <number>        本地 mixed proxy 端口，默认 7890。
+--ui-port <number>     本地 GUI/API 端口，默认 17980；启动时可 fallback 到 17989。
+--core <path>          使用已有 Mihomo 可执行文件。
+--no-auto-start        打开 GUI/API，但不自动启动 VPN。
+--no-open              启动 GUI/API，但不打开浏览器窗口。
 ```
