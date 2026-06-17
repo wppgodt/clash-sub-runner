@@ -1,0 +1,17 @@
+{
+  "name": "clash-sub-runner",
+  "version": "1.0.0",
+  "description": "A small Windows launcher for a Clash/Mihomo subscription.",
+  "bin": "src/index.js",
+  "scripts": {
+    "build": "node scripts/build-sea.js",
+    "start": "node src/index.js",
+    "refresh": "node src/index.js --refresh-only --no-system-proxy",
+    "test": "node --test test/*.test.js && node scripts/verify-runtime.js"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "esbuild": "^0.28.0",
+    "postject": "^1.0.0-alpha.6"
+  }
+}

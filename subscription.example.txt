@@ -1,0 +1,1 @@
+https://example.com/client/subscribe?token=replace-me

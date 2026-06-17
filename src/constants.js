@@ -1,0 +1,27 @@
+"use strict";
+
+const APP_NAME = "clash-sub-runner";
+const DISPLAY_NAME = "Clash Sub Runner";
+const DEFAULT_PROXY_PORT = 7890;
+const DEFAULT_CONTROLLER_HOST = "127.0.0.1";
+const DEFAULT_CONTROLLER_PORT = 9090;
+const DEFAULT_UI_PORT = 17980;
+const UI_PORT_FALLBACK_COUNT = 10;
+const DEFAULT_CONTROLLER = `${DEFAULT_CONTROLLER_HOST}:${DEFAULT_CONTROLLER_PORT}`;
+const MIHOMO_RELEASE_LATEST = "https://github.com/MetaCubeX/mihomo/releases/latest";
+const CONNECTIVITY_URL = "http://www.gstatic.com/generate_204";
+const HTTPS_TEST_URL = "https://api.ipify.org";
+
+module.exports = {
+  APP_NAME,
+  DISPLAY_NAME,
+  DEFAULT_PROXY_PORT,
+  DEFAULT_CONTROLLER_HOST,
+  DEFAULT_CONTROLLER_PORT,
+  DEFAULT_UI_PORT,
+  UI_PORT_FALLBACK_COUNT,
+  DEFAULT_CONTROLLER,
+  MIHOMO_RELEASE_LATEST,
+  CONNECTIVITY_URL,
+  HTTPS_TEST_URL
+};
