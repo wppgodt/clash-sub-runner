@@ -1,0 +1,4 @@
+interface:
+  display_name: "Start Clash Console"
+  short_description: "Start this project's local network console."
+  default_prompt: "Start the Clash Sub Runner console and tell me the URL."

@@ -18,6 +18,27 @@ The app opens a local GUI window and auto-starts Mihomo. It uses:
 - local GUI/API: `http://127.0.0.1:17980` by default, with automatic fallback through `17989` if another local service already owns the port
 - Mihomo controller: `http://127.0.0.1:9090`
 
+## Deploy From Source
+
+After cloning on Windows, run:
+
+```powershell
+.\scripts\deploy.ps1
+```
+
+The deploy script installs npm dependencies, prepares `subscription.txt`, downloads or verifies the Mihomo core, refreshes the Clash config without changing the Windows proxy, runs source tests, starts the local console, and prints the URL.
+
+Useful deploy options:
+
+```powershell
+.\scripts\deploy.ps1 -Open
+.\scripts\deploy.ps1 -Build
+.\scripts\deploy.ps1 -SkipTests
+.\scripts\deploy.ps1 -SubscriptionUrl "https://example.com/clash.yaml"
+```
+
+Codex users can also invoke the project skill `$deploy-clash-sub-runner` after cloning.
+
 ## GUI Features
 
 - start, stop, refresh subscription, node delay test, one-click reset

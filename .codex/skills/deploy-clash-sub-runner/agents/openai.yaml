@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deploy Clash Sub Runner"
+  short_description: "Set up and start this project after cloning."
+  default_prompt: "Use $deploy-clash-sub-runner to set up this cloned Clash Sub Runner project."
