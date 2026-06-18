@@ -29,6 +29,12 @@ test("local API discovery checks default fallback ports", () => {
   assert.match(source, /status && status\.app/);
 });
 
+test("start.sh delegates to Node instead of PowerShell", () => {
+  const source = fs.readFileSync(path.join(__dirname, "..", "start.sh"), "utf8");
+  assert.match(source, /node scripts\/start-console\.js "\$@"/);
+  assert.doesNotMatch(source, /pwsh|powershell\.exe|-File|-ExecutionPolicy/i);
+});
+
 test("logger GUI tail starts with the current process session", () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "clash-sub-runner-logs-"));
   const context = { logDir: dir, baseDir: dir };
