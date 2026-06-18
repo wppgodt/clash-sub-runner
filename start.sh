@@ -9,6 +9,8 @@ ps_script=".\\scripts\\start-console.ps1"
 ps_cmd=""
 if command -v pwsh >/dev/null 2>&1; then
   ps_cmd="pwsh"
+elif command -v pwsh.exe >/dev/null 2>&1; then
+  ps_cmd="pwsh.exe"
 elif command -v powershell.exe >/dev/null 2>&1; then
   ps_cmd="powershell.exe"
 elif command -v powershell >/dev/null 2>&1; then

@@ -14,7 +14,7 @@ function Resolve-FullPath([string]$Path) {
 function Assert-Command([string]$Name) {
   $command = Get-Command $Name -ErrorAction SilentlyContinue
   if ($null -eq $command) {
-    throw "需要 $Name，但 PATH 中未找到该命令。"
+    throw "$Name is required but was not found on PATH."
   }
   return $command.Source
 }
@@ -22,12 +22,12 @@ function Assert-Command([string]$Name) {
 function Assert-ProjectRoot([string]$Root) {
   $packagePath = Join-Path $Root 'package.json'
   if (!(Test-Path -LiteralPath $packagePath)) {
-    throw "缺少 package.json；请在 Clash Sub Runner 仓库中运行此脚本。"
+    throw "package.json is missing; run this script from the Clash Sub Runner repository."
   }
 
   $package = Get-Content -LiteralPath $packagePath -Raw | ConvertFrom-Json
   if ($package.name -ne 'clash-sub-runner') {
-    throw "package.json 的 name 是 '$($package.name)'，预期为 'clash-sub-runner'。"
+    throw "package.json name is '$($package.name)', expected 'clash-sub-runner'."
   }
 }
 
@@ -50,26 +50,26 @@ function Ensure-Subscription([string]$Root, [string]$Url) {
 
   if (![string]::IsNullOrWhiteSpace($Url)) {
     if (!(Test-HttpUrl $Url)) {
-      throw "提供的订阅 URL 必须是完整的 http(s) URL。"
+      throw "The provided subscription URL must be an absolute http(s) URL."
     }
     [System.IO.File]::WriteAllText($subscriptionPath, "$($Url.Trim())$([Environment]::NewLine)", $utf8NoBom)
-    Write-Host "已保存订阅 URL 到 subscription.txt。"
+    Write-Host "Saved subscription URL to subscription.txt."
     return
   }
 
   if (Test-Path -LiteralPath $subscriptionPath) {
-    Write-Host "已找到 subscription.txt。"
+    Write-Host "Found subscription.txt."
     return
   }
 
-  Write-Host "未找到 subscription.txt。首次部署需要提供 Clash/Mihomo 订阅 URL。"
-  Write-Host "该 URL 只会写入本地 subscription.txt，不会提交到仓库。"
-  $entered = Read-Host "请输入 Clash/Mihomo 订阅 URL"
+  Write-Host "subscription.txt was not found. First-time deployment needs a Clash/Mihomo subscription URL."
+  Write-Host "The URL will only be written to local subscription.txt and must not be committed."
+  $entered = Read-Host "Enter your Clash/Mihomo subscription URL"
   if (!(Test-HttpUrl $entered)) {
-    throw "订阅 URL 必须是完整的 http(s) URL。"
+    throw "The subscription URL must be an absolute http(s) URL."
   }
   [System.IO.File]::WriteAllText($subscriptionPath, "$($entered.Trim())$([Environment]::NewLine)", $utf8NoBom)
-  Write-Host "已保存订阅 URL 到 subscription.txt。"
+  Write-Host "Saved subscription URL to subscription.txt."
 }
 
 function Invoke-Step([string]$Label, [scriptblock]$Action) {
@@ -82,40 +82,40 @@ $root = Resolve-FullPath (Join-Path $PSScriptRoot '..')
 Set-Location $root
 Assert-ProjectRoot $root
 
-Invoke-Step "检查本地工具" {
+Invoke-Step "Checking local tools" {
   Assert-Command node | Out-Null
   Assert-Command npm | Out-Null
 }
 
-Invoke-Step "安装 npm 依赖" {
+Invoke-Step "Installing npm dependencies" {
   npm install
 }
 
-Invoke-Step "准备订阅文件" {
+Invoke-Step "Preparing subscription file" {
   Ensure-Subscription $root $SubscriptionUrl
 }
 
-Invoke-Step "下载或验证 Mihomo core" {
+Invoke-Step "Downloading or verifying Mihomo core" {
   node src\index.js --download-core-only
 }
 
-Invoke-Step "刷新 Clash 配置但不修改 Windows 系统代理" {
+Invoke-Step "Refreshing Clash config without changing Windows proxy" {
   node src\index.js --refresh-only --no-system-proxy
 }
 
 if ($Build) {
-  Invoke-Step "构建可分发可执行文件" {
+  Invoke-Step "Building distributable executables" {
     npm run build
   }
 }
 
 if (!$SkipTests) {
-  Invoke-Step "运行源码测试" {
+  Invoke-Step "Running source tests" {
     node --test test/*.test.js
   }
 }
 
-Invoke-Step "启动本地控制台" {
+Invoke-Step "Starting local console" {
   $startScript = Join-Path $root 'scripts\start-console.ps1'
   if ($Open) {
     & $startScript -Open
